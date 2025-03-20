@@ -14,16 +14,17 @@ class SimilarityService:
             return 0.0  # Handle empty sets
         return intersection / union
 
-    def calculate_cosine_similarity_tfidf(self, sentence1: str, sentence2: str) -> float:
-        vectorizer = TfidfVectorizer()
-        tfidf_matrix = vectorizer.fit_transform([sentence1, sentence2])
-        print(tfidf_matrix.toarray()) # Print the TF-IDF vectors
-        cosine_sim = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
-        return cosine_sim
-    
     # def calculate_cosine_similarity_tfidf(self, sentence1: str, sentence2: str) -> float:
-    #     vectorizer = TfidfVectorizer(stop_words='english') # Add stop_words='english'
+    #     vectorizer = TfidfVectorizer()
     #     tfidf_matrix = vectorizer.fit_transform([sentence1, sentence2])
-    #     print(tfidf_matrix.toarray())  # Print the TF-IDF vectors
+    #     print(tfidf_matrix.toarray()) # Print the TF-IDF vectors
     #     cosine_sim = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
     #     return cosine_sim
+    
+    def calculate_cosine_similarity_tfidf(self, sentence1: str, sentence2: str) -> float:
+        vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1,2)) # Add stop_words='english'
+        print("Vectorizer Parameters: ", vectorizer.get_params())
+        tfidf_matrix = vectorizer.fit_transform([sentence1, sentence2])
+        print(tfidf_matrix.toarray())  # Print the TF-IDF vectors
+        cosine_sim = cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
+        return cosine_sim
